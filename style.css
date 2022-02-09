@@ -21,8 +21,9 @@ html {
 }
 
 .main {
-  padding-top: 10%;
+  padding-top: 5%;
 }
+
 button {
   cursor: pointer;
   outline: none;
