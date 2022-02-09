@@ -3,13 +3,19 @@ const playBtn = document.querySelector(".play_btn");
 
 function onHandlePlaybtn() {
   startCount();
+  playBtn.classList.toggle("hidden");
+  stopBtn.classList.toggle("hidden");
 }
 playBtn.addEventListener("click", onHandlePlaybtn);
 
 //handle stop btn
 const stopBtn = document.querySelector(".stop_btn");
-
-stopBtn.addEventListener("click", stopInterver);
+function OnHandleStopBtn() {
+  stopBtn.classList.toggle("hidden");
+  playBtn.classList.toggle("hidden");
+  stopInterver();
+}
+stopBtn.addEventListener("click", OnHandleStopBtn);
 
 // 10sec countdown
 

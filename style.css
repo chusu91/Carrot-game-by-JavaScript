@@ -20,16 +20,24 @@ html {
   text-align: center;
 }
 
+.main {
+  padding-top: 10%;
+}
 button {
   cursor: pointer;
   outline: none;
   border: 4px solid black;
   background-color: bisque;
+  color: black;
   border-radius: 20%;
 }
 
-button i {
+i {
   font-size: 48px;
+}
+
+.hidden {
+  display: none;
 }
 
 .time_count {
