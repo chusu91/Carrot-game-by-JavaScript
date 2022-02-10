@@ -8,27 +8,31 @@ function onHandlePlaybtn() {
   for (i = 0; i < 10; i++) {
     placeElementsRandomly();
   }
+  onHandleCarrotClick();
+  carrotCount();
 }
 playBtn.addEventListener("click", onHandlePlaybtn);
 
 // place carrots and bugs randomly
+const playGround = document.querySelector(".play_ground");
 function placeElementsRandomly() {
   const carrot = document.createElement("img");
   carrot.src = "img/carrot.png";
-  const body = document.querySelector(".background");
-  body.appendChild(carrot);
+  carrot.setAttribute("class", "carrot");
+  playGround.appendChild(carrot);
   imgRandomPosition(carrot);
   const bug = document.createElement("img");
   bug.src = "img/bug.png";
-  body.appendChild(bug);
+  playGround.appendChild(bug);
   imgRandomPosition(bug);
 }
 
 function imgRandomPosition(img) {
   const winHeight = window.innerHeight;
   const winWidth = window.innerWidth;
+  console.log(winWidth);
   let randomY = getRandomNum(0, winHeight / 2);
-  let randomX = getRandomNum(0, winWidth);
+  let randomX = getRandomNum(0, winWidth - 50);
   img.style.position = "absolute";
   img.style.bottom = `${randomY}px`;
   img.style.left = `${randomX}px`;
@@ -68,3 +72,20 @@ function startCount() {
     }
   }, 1000);
 }
+
+// Handle carrot count box
+const carrotCountBox = document.querySelector(".carrot_count");
+let carrotNum = 10;
+function carrotCount() {
+  carrotCountBox.innerHTML = carrotNum;
+  carrotNum -= 1;
+}
+
+//handle click the carrots
+const carrot = document.querySelector(".carrot");
+function onHandleCarrotClick() {
+  console.log(carrot);
+}
+carrot.addEventListener("click", carrotCount);
+
+//Handle carrot's count
