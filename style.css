@@ -83,3 +83,11 @@ button {
   color: white;
   font-size: 48px;
 }
+
+.carrot {
+  transition: all 300ms ease;
+}
+
+.carrot:hover {
+  transform: scale(1.1);
+}
