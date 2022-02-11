@@ -61,18 +61,36 @@ function stopInterver() {
 }
 
 let timer;
-
+let timeleft = 10;
 function startCountTime() {
-  let timeleft = 10;
-  timer = setInterval(() => {
-    if (timeleft === 0) {
-      stopInterver(timer);
-    } else {
-      timeContainer.innerHTML = `0:${timeleft}`;
-      timeleft -= 1;
-    }
-  }, 1000);
+  countTime();
+  timer = setInterval(countTime, 1000);
+  //setInterval(countTime, 1000);
 }
+
+function countTime() {
+  if (timeleft === 0) {
+    timeContainer.innerHTML = `0:${timeleft}`;
+    stopInterver(timer);
+  } else {
+    timeContainer.innerHTML = `0:${timeleft}`;
+    timeleft -= 1;
+  }
+}
+
+//let timer;
+//
+//function startCountTime() {
+//  let timeleft = 10;
+//  timer = setInterval(() => {
+//    if (timeleft === 0) {
+//      stopInterver(timer);
+//    } else {
+//      timeContainer.innerHTML = `0:${timeleft}`;
+//      timeleft -= 1;
+//    }
+//  }, 1000);
+//}
 
 // Handle carrot count box
 const carrotCountBox = document.querySelector(".carrot_count");
