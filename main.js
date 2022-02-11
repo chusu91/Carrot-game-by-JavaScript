@@ -108,3 +108,9 @@ function onClickcarrotOrBug(event) {
 playGround.addEventListener("click", (event) => {
   onClickcarrotOrBug(event);
 });
+
+//handle replay Btn
+const replayBtn = document.querySelector(".replay_btn");
+replayBtn.addEventListener("click", () => {
+  location.reload();
+});
