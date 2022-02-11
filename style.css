@@ -31,10 +31,8 @@ button {
   background-color: bisque;
   color: black;
   border-radius: 20%;
-}
-
-i {
-  font-size: 48px;
+  font-size: 36px;
+  padding: 5px;
 }
 
 .hidden {

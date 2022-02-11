@@ -2,14 +2,13 @@
 const playBtn = document.querySelector(".play_btn");
 
 function onHandlePlaybtn() {
-  startCount();
+  startCountTime();
   playBtn.classList.toggle("hidden");
   stopBtn.classList.toggle("hidden");
   for (i = 0; i < 10; i++) {
     placeElementsRandomly();
   }
-  onHandleCarrotClick();
-  carrotCount();
+  startCarrotCoutBox();
 }
 playBtn.addEventListener("click", onHandlePlaybtn);
 
@@ -19,10 +18,13 @@ function placeElementsRandomly() {
   const carrot = document.createElement("img");
   carrot.src = "img/carrot.png";
   carrot.setAttribute("class", "carrot");
+  carrot.setAttribute("data-id", "carrot");
   playGround.appendChild(carrot);
   imgRandomPosition(carrot);
   const bug = document.createElement("img");
   bug.src = "img/bug.png";
+  bug.setAttribute("data-id", "bug");
+  bug.setAttribute("class", "bug");
   playGround.appendChild(bug);
   imgRandomPosition(bug);
 }
@@ -30,7 +32,6 @@ function placeElementsRandomly() {
 function imgRandomPosition(img) {
   const winHeight = window.innerHeight;
   const winWidth = window.innerWidth;
-  console.log(winWidth);
   let randomY = getRandomNum(0, winHeight / 2);
   let randomX = getRandomNum(0, winWidth - 50);
   img.style.position = "absolute";
@@ -55,13 +56,13 @@ stopBtn.addEventListener("click", OnHandleStopBtn);
 
 const timeContainer = document.querySelector(".time_count");
 function stopInterver() {
-  timeContainer.innerHTML = "00:00";
+  //timeContainer.innerHTML = "00:00";
   clearInterval(timer);
 }
 
 let timer;
 
-function startCount() {
+function startCountTime() {
   let timeleft = 10;
   timer = setInterval(() => {
     if (timeleft === 0) {
@@ -76,16 +77,34 @@ function startCount() {
 // Handle carrot count box
 const carrotCountBox = document.querySelector(".carrot_count");
 let carrotNum = 10;
-function carrotCount() {
+
+function startCarrotCoutBox() {
   carrotCountBox.innerHTML = carrotNum;
-  carrotNum -= 1;
 }
 
-//handle click the carrots
-const carrot = document.querySelector(".carrot");
-function onHandleCarrotClick() {
-  console.log(carrot);
+const resultBox = document.querySelector(".result");
+const winText = document.querySelector(".won");
+const lostText = document.querySelector(".lost");
+function onClickcarrotOrBug(event) {
+  const dataId = event.target.dataset.id;
+  if (carrotNum > 1 && dataId === "carrot") {
+    carrotNum -= 1;
+    carrotCountBox.innerHTML = carrotNum;
+    event.target.remove();
+  } else if (dataId === "bug") {
+    stopInterver();
+    resultBox.classList.remove("hidden");
+    winText.classList.toggle("hidden");
+  } else if (carrotNum === 1 && dataId === "carrot") {
+    carrotNum -= 1;
+    carrotCountBox.innerHTML = carrotNum;
+    event.target.remove();
+    stopInterver();
+    resultBox.classList.remove("hidden");
+    lostText.classList.toggle("hidden");
+  }
 }
-carrot.addEventListener("click", carrotCount);
 
-//Handle carrot's count
+playGround.addEventListener("click", (event) => {
+  onClickcarrotOrBug(event);
+});
