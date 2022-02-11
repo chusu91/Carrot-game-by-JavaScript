@@ -2,13 +2,15 @@
 const playBtn = document.querySelector(".play_btn");
 
 function onHandlePlaybtn() {
-  startCountTime();
-  playBtn.classList.toggle("hidden");
-  stopBtn.classList.toggle("hidden");
-  for (i = 0; i < 10; i++) {
-    placeElementsRandomly();
+  if (!playGround.childElementCount) {
+    startCountTime();
+    playBtn.classList.toggle("hidden");
+    stopBtn.classList.toggle("hidden");
+    for (i = 0; i < 10; i++) {
+      placeElementsRandomly();
+    }
+    startCarrotCountBox();
   }
-  startCarrotCoutBox();
 }
 playBtn.addEventListener("click", onHandlePlaybtn);
 
@@ -58,6 +60,7 @@ const timeContainer = document.querySelector(".time_count");
 function stopInterver() {
   //timeContainer.innerHTML = "00:00";
   clearInterval(timer);
+  timeleft = 10;
 }
 
 let timer;
@@ -94,10 +97,11 @@ function countTime() {
 
 // Handle carrot count box
 const carrotCountBox = document.querySelector(".carrot_count");
-let carrotNum = 10;
+let carrotNum;
 
-function startCarrotCoutBox() {
-  carrotCountBox.innerHTML = carrotNum;
+function startCarrotCountBox() {
+  carrotNum = document.querySelectorAll(".carrot").length;
+  carrotCountBox.innerText = carrotNum;
 }
 
 const resultBox = document.querySelector(".result");
@@ -112,14 +116,16 @@ function onClickcarrotOrBug(event) {
   } else if (dataId === "bug") {
     stopInterver();
     resultBox.classList.remove("hidden");
-    winText.classList.toggle("hidden");
+    winText.classList.add("hidden");
+    lostText.classList.remove("hidden");
   } else if (carrotNum === 1 && dataId === "carrot") {
     carrotNum -= 1;
     carrotCountBox.innerHTML = carrotNum;
     event.target.remove();
     stopInterver();
     resultBox.classList.remove("hidden");
-    lostText.classList.toggle("hidden");
+    lostText.classList.add("hidden");
+    winText.classList.remove("hidden");
   }
 }
 
@@ -130,5 +136,14 @@ playGround.addEventListener("click", (event) => {
 //handle replay Btn
 const replayBtn = document.querySelector(".replay_btn");
 replayBtn.addEventListener("click", () => {
-  location.reload();
+  resultBox.classList.add("hidden");
+  removeAllchildNodes(playGround);
+  onHandlePlaybtn();
+  carrotNum = 10;
 });
+
+function removeAllchildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
