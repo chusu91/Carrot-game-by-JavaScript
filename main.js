@@ -1,8 +1,16 @@
+// Audio
+let alertSound = new Audio("sound/alert.wav");
+let bgSound = new Audio("sound/bg.mp3");
+let bugSound = new Audio("sound/bug_pull.mp3");
+let carrotSound = new Audio("sound/carrot_pull.mp3");
+let winSound = new Audio("sound/game_win.mp3");
+
 // handle play btn
 const playBtn = document.querySelector(".play_btn");
 
 function onHandlePlaybtn() {
   if (!playGround.childElementCount) {
+    bgSound.play();
     startCountTime();
     playBtn.classList.toggle("hidden");
     stopBtn.classList.toggle("hidden");
@@ -51,6 +59,7 @@ function OnHandleStopBtn() {
   stopBtn.classList.toggle("hidden");
   playBtn.classList.toggle("hidden");
   stopInterver();
+  whenLostResult();
 }
 stopBtn.addEventListener("click", OnHandleStopBtn);
 
@@ -74,26 +83,13 @@ function startCountTime() {
 function countTime() {
   if (timeleft === 0) {
     timeContainer.innerHTML = `0:${timeleft}`;
-    stopInterver(timer);
+    //stopInterver(timer);
+    whenLostResult();
   } else {
     timeContainer.innerHTML = `0:${timeleft}`;
     timeleft -= 1;
   }
 }
-
-//let timer;
-//
-//function startCountTime() {
-//  let timeleft = 10;
-//  timer = setInterval(() => {
-//    if (timeleft === 0) {
-//      stopInterver(timer);
-//    } else {
-//      timeContainer.innerHTML = `0:${timeleft}`;
-//      timeleft -= 1;
-//    }
-//  }, 1000);
-//}
 
 // Handle carrot count box
 const carrotCountBox = document.querySelector(".carrot_count");
@@ -104,28 +100,23 @@ function startCarrotCountBox() {
   carrotCountBox.innerText = carrotNum;
 }
 
+// Handle on Click carrot or Bug
+
 const resultBox = document.querySelector(".result");
 const winText = document.querySelector(".won");
 const lostText = document.querySelector(".lost");
 function onClickcarrotOrBug(event) {
   const dataId = event.target.dataset.id;
   if (carrotNum > 1 && dataId === "carrot") {
-    carrotNum -= 1;
-    carrotCountBox.innerHTML = carrotNum;
-    event.target.remove();
+    onHandleClickCarrot(event);
   } else if (dataId === "bug") {
+    bugSound.play();
     stopInterver();
-    resultBox.classList.remove("hidden");
-    winText.classList.add("hidden");
-    lostText.classList.remove("hidden");
+    whenLostResult();
   } else if (carrotNum === 1 && dataId === "carrot") {
-    carrotNum -= 1;
-    carrotCountBox.innerHTML = carrotNum;
-    event.target.remove();
+    onHandleClickCarrot(event);
     stopInterver();
-    resultBox.classList.remove("hidden");
-    lostText.classList.add("hidden");
-    winText.classList.remove("hidden");
+    whenWinResult();
   }
 }
 
@@ -133,14 +124,43 @@ playGround.addEventListener("click", (event) => {
   onClickcarrotOrBug(event);
 });
 
+function onHandleClickCarrot(event) {
+  carrotSound.play();
+  carrotNum -= 1;
+  carrotCountBox.innerHTML = carrotNum;
+  event.target.remove();
+}
+
+// Result display
+function whenLostResult() {
+  bgSound.pause();
+  alertSound.play();
+  alertSound.pause();
+  resultBox.classList.remove("hidden");
+  winText.classList.add("hidden");
+  lostText.classList.remove("hidden");
+  coverThePlayGround();
+}
+function whenWinResult() {
+  bgSound.pause();
+  winSound.play();
+  resultBox.classList.remove("hidden");
+  lostText.classList.add("hidden");
+  winText.classList.remove("hidden");
+}
+
+// ??how to unable to click after the result***??
+
 //handle replay Btn
 const replayBtn = document.querySelector(".replay_btn");
-replayBtn.addEventListener("click", () => {
+replayBtn.addEventListener("click", onHandleReplay);
+
+function onHandleReplay() {
   resultBox.classList.add("hidden");
   removeAllchildNodes(playGround);
   onHandlePlaybtn();
   carrotNum = 10;
-});
+}
 
 function removeAllchildNodes(parent) {
   while (parent.firstChild) {
