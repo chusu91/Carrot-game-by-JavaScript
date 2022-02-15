@@ -139,7 +139,6 @@ function whenLostResult() {
   resultBox.classList.remove("hidden");
   winText.classList.add("hidden");
   lostText.classList.remove("hidden");
-  coverThePlayGround();
 }
 function whenWinResult() {
   bgSound.pause();
