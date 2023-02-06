@@ -1,2 +1,3 @@
 # Carrot game by JavaScript
- game made by JS
+
+game made by Vanila JS
