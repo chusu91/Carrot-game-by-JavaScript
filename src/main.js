@@ -1,7 +1,7 @@
 "use strict";
 
 import PopUp from "./popup.js";
-import GameBuilder, { Reason } from "./game.js";
+import { GameBuilder, Reason } from "./game.js";
 import * as sound from "./sound.js";
 const gameFinnishBanner = new PopUp();
 

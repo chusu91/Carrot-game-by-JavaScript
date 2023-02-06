@@ -3,7 +3,7 @@ import * as sound from "./sound.js";
 
 const CARROT_SIZE = 80;
 
-export const ItemType = object.freeze({
+export const ItemType = Object.freeze({
   carrot: "carrot",
   bug: "bug",
 });
